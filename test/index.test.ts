@@ -1,31 +1,40 @@
 import Web3, { core } from "web3";
-import { TemplatePlugin } from "../src";
+import { ChainstackPlugin } from "../src";
 
-describe("TemplatePlugin Tests", () => {
-  it("should register TokensPlugin plugin on Web3Context instance", () => {
-    const web3Context = new core.Web3Context("http://127.0.0.1:8545");
-    web3Context.registerPlugin(new TemplatePlugin());
-    expect(web3Context.template).toBeDefined();
+describe("ChainstackPlugin Tests", () => {
+  it("should register ChainstackPlugin plugin on Web3Context instance", () => {
+    const web3Context = new core.Web3Context("https://nd-422-757-666.p2pify.com/0a9d79d93fb2f4a4b1e04695da2b77a7/");
+    web3Context.registerPlugin(new ChainstackPlugin());
+    expect(web3Context.chainstack).toBeDefined();
   });
 
-  describe("TemplatePlugin method tests", () => {
-    let consoleSpy: jest.SpiedFunction<typeof global.console.log>;
+  describe("ChainstackPlugin method tests", () => {
 
-    let web3Context: Web3;
+    let web3: Web3;
 
     beforeAll(() => {
-      web3Context = new Web3("http://127.0.0.1:8545");
-      web3Context.registerPlugin(new TemplatePlugin());
-      consoleSpy = jest.spyOn(global.console, "log").mockImplementation();
+      web3 = new Web3("https://nd-422-757-666.p2pify.com/0a9d79d93fb2f4a4b1e04695da2b77a7/");
+      web3.registerPlugin(new ChainstackPlugin());
     });
 
     afterAll(() => {
-      consoleSpy.mockRestore();
     });
 
-    it("should call TempltyPlugin test method with expected param", () => {
-      web3Context.template.test("test-param");
-      expect(consoleSpy).toHaveBeenCalledWith("test-param");
+    it("should call traceBlockByHash method with expected param", async () => {
+      const hash = "0x66103840578be3bc9c865e0961c4a4de31b5df7a45dcd13ffe2679ff9c7315d8";
+      const response = await web3.chainstack.traceBlockByHash(hash);
+      // expect response.result to be an array of the following shape:
+      // [
+      //   {
+      //     result: {
+      //       "result": Map<string, number>
+      //     }
+      //   } 
+      // ]
+      expect(response).toBeDefined();
+
+      
+      console.log(response);
     });
   });
 });
