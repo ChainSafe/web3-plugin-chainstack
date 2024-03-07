@@ -1,32 +1,43 @@
+TODO: Edit the and add more to this file
+
 web3-plugin-chainstack
 ===========
-This is a sample repository for how to make a web3.js plugin for custom RPC providers like chainstack.
-
-It currently implement https://docs.chainstack.com/reference/ethereum-traceblockbyhash for the `4byteTracer`. **Feel free to open PRs to add more functionality. Or sponsor this work**
+This is a web3.js plugin for Chainstack.
 
 
 Plugin usage by the users
 ------------
 At your typescript project first run:
-`yarn add web3 @conx3/web3-plugin-chainstack`
+`yarn add web3 @chainsafe/web3-plugin-chainstack`
 
 And here is how to use the plugin:
 ```ts
 import { Web3 } from 'web3';
-import { ChainstackPlugin } from '@conx3/web3-plugin-chainstack';
+import { ChainstackPlugin } from '@chainsafe/web3-plugin-chainstack';
 
 async function main() {
   const web3 = new Web3("https://nd-422-757-666.p2pify.com/0a9d79d93fb2f4a4b1e04695da2b77a7/");
-  web3.registerPlugin(new ChainstackPlugin());
 
-  const hash = "0x66103840578be3bc9c865e0961c4a4de31b5df7a45dcd13ffe2679ff9c7315d8";
-  const response = await web3.chainstack.traceBlockByHash(hash);
 
-  console.log(response);
+  const chainstackAuth = {
+    // generate one from: https://console.chainstack.com/user/settings/api-keys
+    apiKey: 'API_KEY',
+  };
+
+  web3.registerPlugin(new ChainstackPlugin(chainstackAuth));
+  
+  //TODO: provide examples here
+  web3.chainstack.METHOD_NAME(PARAM)
 }
 main();
 
 ```
+
+Testing
+------------
+Add `API_KEY` environment variable to `.env` file at the root. You can generate one from: https://console.chainstack.com/user/settings/api-keys.
+
+Run: `yarn test`
 
 
 Publish a new version to the npm registry
