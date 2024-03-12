@@ -39,8 +39,6 @@ export class ChainstackPlugin extends Web3PluginBase {
   public async getOrganization(): Promise<Organization> {
     try {
       const response = await this.sendRequest(`${this.endPoint}/organization`, this.getRequestConfig());
-
-      console.log(response.data);
       return response.data;
     } catch (error) {
       console.error(error);
@@ -62,7 +60,7 @@ export class ChainstackPlugin extends Web3PluginBase {
   public async getProjects(): Promise<ProjectsResponse> {
     try {
       const response = await this.sendRequest(`${this.endPoint}/projects/`, this.getRequestConfig());
-      console.log(response.data);
+      
       return response.data;
     } catch (error) {
       console.error(error);
@@ -86,7 +84,7 @@ export class ChainstackPlugin extends Web3PluginBase {
   public async getProject(projectId: string) {
     try {
       const response = await this.sendRequest(`${this.endPoint}/projects/${projectId}/`, this.getRequestConfig());
-      console.log(response.data);
+      
       return response.data;
     } catch (error) {
       console.error(error);
@@ -108,7 +106,7 @@ export class ChainstackPlugin extends Web3PluginBase {
   public async getNetworks(): Promise<NetworksResponse> {
     try {
       const response = await this.sendRequest(`${this.endPoint}/networks/`, this.getRequestConfig());
-      console.log(response.data);
+      
       return response.data;
     } catch (error) {
       console.error(error);
@@ -131,7 +129,7 @@ export class ChainstackPlugin extends Web3PluginBase {
   public async getNetwork(networkId: string) {
     try {
       const response = await this.sendRequest(`${this.endPoint}/networks/${networkId}/`, this.getRequestConfig());
-      console.log(response.data);
+      
       return response.data;
     } catch (error) {
       console.error(error);
@@ -153,7 +151,7 @@ export class ChainstackPlugin extends Web3PluginBase {
   public async getNodes(): Promise<RpcNodesResponse> {
     try {
       const response = await this.sendRequest(`${this.endPoint}/nodes/`, this.getRequestConfig());
-      console.log(response.data);
+      
       return response.data;
     } catch (error) {
       console.error(error);
@@ -175,7 +173,7 @@ export class ChainstackPlugin extends Web3PluginBase {
   public async getNode(nodeId: string): Promise<RpcNode | undefined> {
     try {
       const response = await this.sendRequest(`${this.endPoint}/nodes/${nodeId}/`, this.getRequestConfig());
-      console.log(response.data);
+      
       return response.data;
     } catch (error) {
       console.error(error);
@@ -197,7 +195,7 @@ export class ChainstackPlugin extends Web3PluginBase {
   public async getIdentities(): Promise<IdentitiesResponse> {
     try {
       const response = await this.sendRequest(`${this.endPoint}/identities/`, this.getRequestConfig());
-      console.log(response.data);
+      
       return response.data;
     } catch (error) {
       console.error(error);
@@ -222,7 +220,7 @@ export class ChainstackPlugin extends Web3PluginBase {
         `${this.endPoint}/identities/${identityId}/`,
         this.getRequestConfig()
       );
-      console.log(response.data);
+      
       return response.data;
     } catch (error) {
       console.error(error);
