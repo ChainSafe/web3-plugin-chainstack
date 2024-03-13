@@ -38,37 +38,38 @@ export class ChainstackPlugin extends Web3PluginBase {
 
   // This link overrides link in base class
   public link(parentContext: Web3Context) {
-    if (!validator.isNullish(this.chainstackAuth?.username) && 
-        !validator.isNullish(this.chainstackAuth?.password) &&
-        !validator.isNullish(this.chainstackAuth?.password)
-        ) {
+    if (!validator.isNullish(this.providerEndPoint)) {
+      
+      const credentialsGiven = !validator.isNullish(this.chainstackAuth?.username) && 
+      !validator.isNullish(this.chainstackAuth?.password);
 
       let newProvider = undefined;
-      if (this.providerEndPoint && typeof this.providerEndPoint === 'string') {
+
+      if (typeof this.providerEndPoint === 'string') {
         if (/^http(s)?:\/\//i.test(this.providerEndPoint)) {
 
-          const options: HttpProviderOptions = {
+          const options: HttpProviderOptions | undefined = credentialsGiven ? {
             providerOptions: {
               headers: { 'Authorization': 'Basic ' + btoa(`${this.chainstackAuth.username}:${this.chainstackAuth.password}`) }
             }
-          };
+          } : undefined;
 
           newProvider = new HttpProvider(this.providerEndPoint, options);
           
         } else if (/^ws(s)?:\/\//i.test(this.providerEndPoint)) {
 
-        const options: ClientOptions = {
+        const options: ClientOptions | undefined = credentialsGiven ? {
             headers: { 'Authorization': 'Basic ' + btoa(`${this.chainstackAuth.username}:${this.chainstackAuth.password}`) }
-        };
+        } : undefined;
 
           newProvider = new WebSocketProvider(this.providerEndPoint, options);
 
         }
         parentContext.requestManager.setProvider(newProvider);
       }
-
-      super.link(parentContext);
     }
+
+    super.link(parentContext);
   }
 
   private getRequestConfig() {
