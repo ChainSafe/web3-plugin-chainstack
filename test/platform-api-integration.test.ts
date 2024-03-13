@@ -1,7 +1,7 @@
 import { ChainstackPlugin } from '../src/chainstack-plugin';
 require('dotenv').config();
 
-describe('ChainstackPlugin', () => {
+describe('ChainstackPlugin PlatformAPI', () => {
   let chainstackPlugin: ChainstackPlugin;
 
   beforeEach(() => {
@@ -9,7 +9,7 @@ describe('ChainstackPlugin', () => {
     // const chainstackAuth = jest.fn();
     const chainstackAuth = {
       // generate one from: https://console.chainstack.com/user/settings/api-keys
-      apiKey: process.env.API_KEY,
+      apiKey: process.env.CS_KEY,
     };
 
     chainstackPlugin = new ChainstackPlugin(chainstackAuth);
