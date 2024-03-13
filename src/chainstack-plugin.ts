@@ -1,4 +1,6 @@
-import { Web3PluginBase } from 'web3';
+import { HttpProvider, Web3Context, Web3PluginBase, validator } from 'web3';
+import { HttpProviderOptions } from 'web3-providers-http'
+import { ClientOptions, WebSocketProvider } from 'web3-providers-ws'
 import axios, { AxiosRequestConfig } from 'axios';
 import { ChainstackAuth } from './chainstack-auth';
 import {
@@ -13,8 +15,60 @@ import {
 export class ChainstackPlugin extends Web3PluginBase {
   public pluginNamespace = 'chainstack';
 
-  public constructor(public chainstackAuth: ChainstackAuth, public endPoint = 'https://api.chainstack.com/v1') {
+  public platformAPIEndPoint: string;
+  public chainstackAuth: ChainstackAuth;
+  public providerEndPoint?: string;
+
+  constructor(
+    chainstackAuthOrProviderEndPoint: ChainstackAuth | string,
+    chainstackAuth?: ChainstackAuth,
+    platformAPIEndPoint: string = 'https://api.chainstack.com/v1'
+) {
     super();
+
+    if (typeof chainstackAuthOrProviderEndPoint === 'string') {
+        this.providerEndPoint = chainstackAuthOrProviderEndPoint;
+        this.chainstackAuth = chainstackAuth as ChainstackAuth;
+    } else {
+        this.chainstackAuth = chainstackAuthOrProviderEndPoint;
+    }
+
+    this.platformAPIEndPoint = platformAPIEndPoint;
+}
+
+  // This link overrides link in base class
+  public link(parentContext: Web3Context) {
+    if (!validator.isNullish(this.chainstackAuth?.username) && 
+        !validator.isNullish(this.chainstackAuth?.password) &&
+        !validator.isNullish(this.chainstackAuth?.password)
+        ) {
+
+      let newProvider = undefined;
+      if (this.providerEndPoint && typeof this.providerEndPoint === 'string') {
+        if (/^http(s)?:\/\//i.test(this.providerEndPoint)) {
+
+          const options: HttpProviderOptions = {
+            providerOptions: {
+              headers: { 'Authorization': 'Basic ' + btoa(`${this.chainstackAuth.username}:${this.chainstackAuth.password}`) }
+            }
+          };
+
+          newProvider = new HttpProvider(this.providerEndPoint, options);
+          
+        } else if (/^ws(s)?:\/\//i.test(this.providerEndPoint)) {
+
+        const options: ClientOptions = {
+            headers: { 'Authorization': 'Basic ' + btoa(`${this.chainstackAuth.username}:${this.chainstackAuth.password}`) }
+        };
+
+          newProvider = new WebSocketProvider(this.providerEndPoint, options);
+
+        }
+        parentContext.requestManager.setProvider(newProvider);
+      }
+
+      super.link(parentContext);
+    }
   }
 
   private getRequestConfig() {
@@ -37,8 +91,8 @@ export class ChainstackPlugin extends Web3PluginBase {
    * @see {@link https://docs.chainstack.com/docs/guide-get-the-most-out-of-the-chainstack-platform-api#understand-and-leverage-api-endpoints}
    */
   public async getOrganization(): Promise<Organization> {
-      const response = await this.sendRequest(`${this.endPoint}/organization`, this.getRequestConfig());
-      return response.data;
+    const response = await this.sendRequest(`${this.platformAPIEndPoint}/organization`, this.getRequestConfig());
+    return response.data;
   }
 
   /**
@@ -53,8 +107,8 @@ export class ChainstackPlugin extends Web3PluginBase {
    * @see {@link https://docs.chainstack.com/docs/guide-get-the-most-out-of-the-chainstack-platform-api#understand-and-leverage-api-endpoints}
    */
   public async getProjects(): Promise<ProjectsResponse> {
-      const response = await this.sendRequest(`${this.endPoint}/projects/`, this.getRequestConfig());
-      return response.data;
+    const response = await this.sendRequest(`${this.platformAPIEndPoint}/projects/`, this.getRequestConfig());
+    return response.data;
   }
 
   /**
@@ -71,8 +125,8 @@ export class ChainstackPlugin extends Web3PluginBase {
    *
    */
   public async getProject(projectId: string) {
-      const response = await this.sendRequest(`${this.endPoint}/projects/${projectId}/`, this.getRequestConfig()); 
-      return response.data;
+    const response = await this.sendRequest(`${this.platformAPIEndPoint}/projects/${projectId}/`, this.getRequestConfig());
+    return response.data;
   }
 
   /**
@@ -87,8 +141,8 @@ export class ChainstackPlugin extends Web3PluginBase {
    * @see {@link https://docs.chainstack.com/docs/guide-get-the-most-out-of-the-chainstack-platform-api#understand-and-leverage-api-endpoints}
    */
   public async getNetworks(): Promise<NetworksResponse> {
-      const response = await this.sendRequest(`${this.endPoint}/networks/`, this.getRequestConfig());
-      return response.data;
+    const response = await this.sendRequest(`${this.platformAPIEndPoint}/networks/`, this.getRequestConfig());
+    return response.data;
   }
 
   /**
@@ -104,8 +158,8 @@ export class ChainstackPlugin extends Web3PluginBase {
    * @see {@link https://docs.chainstack.com/docs/guide-get-the-most-out-of-the-chainstack-platform-api#understand-and-leverage-api-endpoints}
    */
   public async getNetwork(networkId: string) {
-      const response = await this.sendRequest(`${this.endPoint}/networks/${networkId}/`, this.getRequestConfig());
-      return response.data;
+    const response = await this.sendRequest(`${this.platformAPIEndPoint}/networks/${networkId}/`, this.getRequestConfig());
+    return response.data;
   }
 
   /**
@@ -120,8 +174,8 @@ export class ChainstackPlugin extends Web3PluginBase {
    * @see {@link https://docs.chainstack.com/docs/guide-get-the-most-out-of-the-chainstack-platform-api#understand-and-leverage-api-endpoints}
    */
   public async getNodes(): Promise<RpcNodesResponse> {
-      const response = await this.sendRequest(`${this.endPoint}/nodes/`, this.getRequestConfig());
-      return response.data;
+    const response = await this.sendRequest(`${this.platformAPIEndPoint}/nodes/`, this.getRequestConfig());
+    return response.data;
   }
 
   /**
@@ -136,8 +190,8 @@ export class ChainstackPlugin extends Web3PluginBase {
    * @see {@link https://docs.chainstack.com/docs/guide-get-the-most-out-of-the-chainstack-platform-api#understand-and-leverage-api-endpoints}
    */
   public async getNode(nodeId: string): Promise<RpcNode | undefined> {
-      const response = await this.sendRequest(`${this.endPoint}/nodes/${nodeId}/`, this.getRequestConfig());
-      return response.data;
+    const response = await this.sendRequest(`${this.platformAPIEndPoint}/nodes/${nodeId}/`, this.getRequestConfig());
+    return response.data;
   }
 
   /**
@@ -152,8 +206,8 @@ export class ChainstackPlugin extends Web3PluginBase {
    * @see {@link https://docs.chainstack.com/docs/guide-get-the-most-out-of-the-chainstack-platform-api#understand-and-leverage-api-endpoints}
    */
   public async getIdentities(): Promise<IdentitiesResponse> {
-      const response = await this.sendRequest(`${this.endPoint}/identities/`, this.getRequestConfig());
-      return response.data;
+    const response = await this.sendRequest(`${this.platformAPIEndPoint}/identities/`, this.getRequestConfig());
+    return response.data;
   }
 
   /**
@@ -168,15 +222,15 @@ export class ChainstackPlugin extends Web3PluginBase {
    * @see {@link https://docs.chainstack.com/docs/guide-get-the-most-out-of-the-chainstack-platform-api#understand-and-leverage-api-endpoints}
    */
   public async getIdentity(identityId: string) {
-      const response = await this.sendRequest(
-        `${this.endPoint}/identities/${identityId}/`,
-        this.getRequestConfig()
-      );
-      
-      return response.data;
+    const response = await this.sendRequest(
+      `${this.platformAPIEndPoint}/identities/${identityId}/`,
+      this.getRequestConfig()
+    );
+
+    return response.data;
   }
 
-  async sendRequest(url: string, config:AxiosRequestConfig){
+  async sendRequest(url: string, config: AxiosRequestConfig) {
     return axios.get(url, config);
   }
 
