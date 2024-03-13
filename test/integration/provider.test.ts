@@ -1,5 +1,5 @@
 import Web3 from 'web3';
-import { ChainstackPlugin } from '../src/chainstack-plugin';
+import { ChainstackPlugin } from '../../src/chainstack-plugin';
 import { ChainstackAuth } from 'src/chainstack-auth';
 require('dotenv').config();
 

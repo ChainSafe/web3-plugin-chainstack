@@ -1,4 +1,4 @@
-import { ChainstackPlugin } from '../src/chainstack-plugin';
+import { ChainstackPlugin } from '../../src/chainstack-plugin';
 require('dotenv').config();
 
 describe('ChainstackPlugin PlatformAPI', () => {
