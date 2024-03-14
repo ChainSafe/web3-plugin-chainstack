@@ -26,7 +26,6 @@ describe('ChainstackPlugin Provider', () => {
   it('should allow password protected HTTP provider usage', async () => {
     const web3 = new Web3();
 
-    console.log(httpProvider)
     const chainstackPlugin = new ChainstackPlugin(httpProvider, userAuth);
     web3.registerPlugin(chainstackPlugin);
 
