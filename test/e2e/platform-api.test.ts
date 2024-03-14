@@ -5,8 +5,6 @@ describe('ChainstackPlugin PlatformAPI', () => {
   let chainstackPlugin: ChainstackPlugin;
 
   beforeEach(() => {
-    // Mock the dependencies
-    // const chainstackAuth = jest.fn();
     const chainstackAuth = {
       // generate one from: https://console.chainstack.com/user/settings/api-keys
       apiKey: process.env.CS_KEY,
