@@ -2,6 +2,7 @@ import Web3 from "web3";
 import { ChainstackAuth } from "src/chainstack-auth";
 import { ChainstackPlugin } from "../../src/chainstack-plugin";
 
+// eslint-disable-next-line
 require("dotenv").config();
 
 describe("ChainstackPlugin Provider", () => {

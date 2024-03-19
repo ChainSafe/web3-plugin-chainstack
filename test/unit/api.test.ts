@@ -20,7 +20,7 @@ describe("ChainstackPlugin unit test", () => {
 
     jest.spyOn(axios, "get").mockImplementation((_url, config) => {
       expect(config).toEqual(expectedConfig);
-      return Promise.resolve({ data: {} });
+      return Promise.resolve({ data: {}, status: 200 });
     });
 
     await web3.chainstack.getOrganization();
@@ -28,7 +28,9 @@ describe("ChainstackPlugin unit test", () => {
 
   it("should get organization details", async () => {
     const organization = { name: "Test Org", id: "123" };
-    jest.spyOn(axios, "get").mockResolvedValue({ data: organization });
+    jest
+      .spyOn(axios, "get")
+      .mockResolvedValue({ data: organization, status: 200 });
 
     const result = await web3.chainstack.getOrganization();
 
@@ -40,7 +42,7 @@ describe("ChainstackPlugin unit test", () => {
       { name: "Project 1", id: "P1" },
       { name: "Project 2", id: "P2" },
     ];
-    jest.spyOn(axios, "get").mockResolvedValue({ data: projects });
+    jest.spyOn(axios, "get").mockResolvedValue({ data: projects, status: 200 });
 
     const result = await web3.chainstack.getProjects();
 
@@ -50,7 +52,9 @@ describe("ChainstackPlugin unit test", () => {
   it("should get project details", async () => {
     const projectId = "PR-298-224-574";
     const projectDetails = { name: "Project X", id: projectId };
-    jest.spyOn(axios, "get").mockResolvedValue({ data: projectDetails });
+    jest
+      .spyOn(axios, "get")
+      .mockResolvedValue({ data: projectDetails, status: 200 });
 
     const result = await web3.chainstack.getProject(projectId);
 
@@ -62,7 +66,7 @@ describe("ChainstackPlugin unit test", () => {
       { name: "Network A", id: "N1" },
       { name: "Network B", id: "N2" },
     ];
-    jest.spyOn(axios, "get").mockResolvedValue({ data: networks });
+    jest.spyOn(axios, "get").mockResolvedValue({ data: networks, status: 200 });
 
     const result = await web3.chainstack.getNetworks();
 
@@ -72,7 +76,9 @@ describe("ChainstackPlugin unit test", () => {
   it("should get network details", async () => {
     const networkId = "ND-298-224-574";
     const networkDetails = { name: "Network X", id: networkId };
-    jest.spyOn(axios, "get").mockResolvedValue({ data: networkDetails });
+    jest
+      .spyOn(axios, "get")
+      .mockResolvedValue({ data: networkDetails, status: 200 });
 
     const result = await web3.chainstack.getNetwork(networkId);
 
@@ -84,7 +90,7 @@ describe("ChainstackPlugin unit test", () => {
       { name: "Node A", id: "ND1" },
       { name: "Node B", id: "ND2" },
     ];
-    jest.spyOn(axios, "get").mockResolvedValue({ data: nodes });
+    jest.spyOn(axios, "get").mockResolvedValue({ data: nodes, status: 200 });
 
     const result = await web3.chainstack.getNodes();
 
@@ -94,7 +100,9 @@ describe("ChainstackPlugin unit test", () => {
   it("should get node details", async () => {
     const nodeId = "ND-298-224-574";
     const nodeDetails = { name: "Node X", id: nodeId };
-    jest.spyOn(axios, "get").mockResolvedValue({ data: nodeDetails });
+    jest
+      .spyOn(axios, "get")
+      .mockResolvedValue({ data: nodeDetails, status: 200 });
 
     const result = await web3.chainstack.getNode(nodeId);
 
@@ -106,7 +114,9 @@ describe("ChainstackPlugin unit test", () => {
       { name: "Identity A", id: "ID1" },
       { name: "Identity B", id: "ID2" },
     ];
-    jest.spyOn(axios, "get").mockResolvedValue({ data: identities });
+    jest
+      .spyOn(axios, "get")
+      .mockResolvedValue({ data: identities, status: 200 });
 
     const result = await web3.chainstack.getIdentities();
 
@@ -116,7 +126,9 @@ describe("ChainstackPlugin unit test", () => {
   it("should get identity details", async () => {
     const identityId = "ID-298-224-574";
     const identityDetails = { name: "Identity X", id: identityId };
-    jest.spyOn(axios, "get").mockResolvedValue({ data: identityDetails });
+    jest
+      .spyOn(axios, "get")
+      .mockResolvedValue({ data: identityDetails, status: 200 });
 
     const result = await web3.chainstack.getIdentity(identityId);
 
