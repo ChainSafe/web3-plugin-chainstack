@@ -1,6 +1,6 @@
 {
   "name": "@chainsafe/web3-plugin-chainstack",
-  "version": "1.0.0-alpha.3",
+  "version": "0.1.0",
   "description": "web3.js plugin for Chainstack",
   "main": "lib/index.js",
   "types": "lib/index.d.ts",
