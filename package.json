@@ -4,9 +4,9 @@
   "description": "web3.js plugin for Chainstack",
   "main": "lib/index.js",
   "types": "lib/index.d.ts",
-  "homepage": "https://github.com/web3/web3.js-plugin-template#readme",
+  "homepage": "https://github.com/ChainSafe/web3-plugin-chainstack",
   "bugs": {
-    "url": "https://github.com/web3/web3.js-plugin-template/issues"
+    "url": "https://github.com/ChainSafe/web3-plugin-chainstack/issues"
   },
   "scripts": {
     "lint": "eslint '{src,test}/**/*.ts'",
