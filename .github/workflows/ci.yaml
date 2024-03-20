@@ -24,3 +24,5 @@ jobs:
         run: yarn build
       - name: Tests
         run: yarn run test:unit
+      - name: Lint
+        run: yarn run lint
