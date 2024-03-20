@@ -13,6 +13,8 @@ index.html
 Jenkinsfile*
 *.log
 cypress.config.js
+tsconfig.json
+tsconfig.build.json
 
 .nyc_output/
 coverage/
