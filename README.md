@@ -1,5 +1,8 @@
 web3-plugin-chainstack
 ===========
+
+#### Web3.js libraries are being sunset on March 4th, 2025. For migration guides and more details please refer to [Chainsafe blog](https://blog.chainsafe.io/web3-js-sunset/)
+
 The Chainstack Web3.js plugin provides a seamless integration for interacting with the Chainstack platform through various functions. This plugin allows users to access organization, project, network, node, and identity details. By utilizing this plugin, developers can easily retrieve information from the Chainstack platform. Additionally this Plugin allows to use Chainstack provider with credentials. 
 
 Here are some key functions for interacting with the Chainstack platform API:
